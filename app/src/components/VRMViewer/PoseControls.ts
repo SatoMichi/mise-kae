@@ -43,6 +43,9 @@ export class PoseControls {
           case '現場猫':
             poseKey = 'genba-neko';
             break;
+          case 'ダブルピース':
+            poseKey = 'double-piece';
+            break;
           default:
             console.error('未知のポーズ:', selectedPose);
             return;

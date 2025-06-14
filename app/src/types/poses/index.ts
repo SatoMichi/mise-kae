@@ -4,6 +4,7 @@ import { TPose } from './t-pose';
 import { PeacePose } from './peace';
 import { HiPose } from './hi';
 import { GenbaNekoPose } from './genba-neko';
+import { DoublePiecePose } from './double-piece';
 
 // デフォルトのポーズ定義
 export const DefaultPoses: { [key: string]: PoseDefinition } = {
@@ -21,6 +22,11 @@ export const DefaultPoses: { [key: string]: PoseDefinition } = {
     name: '現場猫',
     description: '現場猫のポーズ',
     pose: GenbaNekoPose
+  },
+  'double-piece': {
+    name: 'ダブルピース',
+    description: '両手でピースサインをするポーズ',
+    pose: DoublePiecePose
   }
 };
 
