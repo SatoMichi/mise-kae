@@ -4,14 +4,14 @@ import { createVRMLoader, loadVRM } from '../../utils/loaders';
 import { VRMViewerProps } from '../../types/vrm';
 import { PoseManager } from './PoseManager';
 import { PoseControls } from './PoseControls';
-import { PoseUploader } from './PoseUploader';
+// import { PoseUploader } from './PoseUploader'; // UI非表示のためコメントアウト
 
 export class VRMViewer {
   private vrm: VRM | null = null;
   private loader = createVRMLoader();
   private poseManager: PoseManager | null = null;
   private poseControls: PoseControls | null = null;
-  private poseUploader: PoseUploader | null = null;
+  // private poseUploader: PoseUploader | null = null; // UI非表示のためコメントアウト
 
   constructor(
     private props: VRMViewerProps,
@@ -27,7 +27,8 @@ export class VRMViewer {
       // VRMの読み込み後にポーズ管理を初期化
       this.poseManager = new PoseManager(this.vrm);
       this.poseControls = new PoseControls(this.poseManager);
-      this.poseUploader = new PoseUploader(this.poseManager);
+      // ポーズアップロード機能は内部的に残すが、UIは非表示
+      // this.poseUploader = new PoseUploader(this.poseManager);
 
       // モデルの位置とスケールを調整
       this.vrm.scene.position.set(0, 0, 0);  // 中心に配置
@@ -67,8 +68,9 @@ export class VRMViewer {
     if (this.poseControls) {
       this.poseControls.dispose();
     }
-    if (this.poseUploader) {
-      this.poseUploader.dispose();
-    }
+    // ポーズアップロード機能は非表示にしているためコメントアウト
+    // if (this.poseUploader) {
+    //   this.poseUploader.dispose();
+    // }
   }
 } 

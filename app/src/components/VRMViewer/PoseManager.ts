@@ -74,81 +74,91 @@ export class PoseManager {
       }
     });
 
-    // JSONアップロード時のみリセット
-    if (isJsonUpload) {
-      console.log('JSONアップロードを検出: ポーズをリセットします');
-      // 全ての関節をリセット（Tポーズに戻す）
-      const resetPose: VRMPose = {
-        // 上半身
-        leftShoulder: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightShoulder: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftUpperArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightUpperArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftLowerArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightLowerArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftHand: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightHand: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        // 下半身
-        hips: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftUpperLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightUpperLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftLowerLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightLowerLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftFoot: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightFoot: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        // 指の関節
-        leftThumbProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftThumbIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftThumbDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftIndexProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftIndexIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftIndexDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftMiddleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftMiddleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftMiddleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftRingProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftRingIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftRingDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftLittleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftLittleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        leftLittleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightThumbProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightThumbIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightThumbDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightIndexProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightIndexIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightIndexDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightMiddleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightMiddleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightMiddleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightRingProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightRingIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightRingDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightLittleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightLittleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
-        rightLittleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] }
-      };
+    // 毎回リセットして前のポーズの影響を完全に除去
+    console.log('ポーズをリセットします');
+    // 全ての関節をリセット（Tポーズに戻す）
+    const resetPose: VRMPose = {
+      // 上半身
+      leftShoulder: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightShoulder: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftUpperArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightUpperArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftLowerArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightLowerArm: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftHand: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightHand: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      // 体幹部
+      spine: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      chest: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      upperChest: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      neck: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      head: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      // 下半身
+      hips: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftUpperLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightUpperLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftLowerLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightLowerLeg: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftFoot: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightFoot: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      // 左手の指の関節
+      leftThumbProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftThumbIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftThumbDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftIndexProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftIndexIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftIndexDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftMiddleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftMiddleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftMiddleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftRingProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftRingIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftRingDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftLittleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftLittleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      leftLittleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      // 右手の指の関節
+      rightThumbProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightThumbIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightThumbDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightIndexProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightIndexIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightIndexDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightMiddleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightMiddleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightMiddleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightRingProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightRingIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightRingDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightLittleProximal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightLittleIntermediate: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightLittleDistal: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      // 目（動かさない）
+      leftEye: { rotation: [0, 0, 0, 1], position: [0, 0, 0] },
+      rightEye: { rotation: [0, 0, 0, 1], position: [0, 0, 0] }
+    };
 
-      console.log('リセットポーズを適用します:', {
-        resetBones: Object.keys(resetPose),
-        fingerBones: {
-          leftIndex: resetPose.leftIndexProximal,
-          rightIndex: resetPose.rightIndexProximal
-        }
-      });
+    console.log('リセットポーズを適用します:', {
+      resetBones: Object.keys(resetPose),
+      fingerBones: {
+        leftIndex: resetPose.leftIndexProximal,
+        rightIndex: resetPose.rightIndexProximal
+      }
+    });
 
-      this.vrm.humanoid.setRawPose(resetPose);
+    this.vrm.humanoid.setRawPose(resetPose);
 
-      // リセット後のポーズを確認
-      const afterResetPose = this.vrm.humanoid.getRawPose();
-      console.log('リセット後のポーズ:', {
-        resetBones: Object.keys(afterResetPose),
-        fingerBones: {
-          leftIndex: afterResetPose.leftIndexProximal,
-          rightIndex: afterResetPose.rightIndexProximal
-        }
-      });
-    }
+    // リセット後のポーズを確認
+    const afterResetPose = this.vrm.humanoid.getRawPose();
+    console.log('リセット後のポーズ:', {
+      resetBones: Object.keys(afterResetPose),
+      fingerBones: {
+        leftIndex: afterResetPose.leftIndexProximal,
+        rightIndex: afterResetPose.rightIndexProximal
+      }
+    });
+
+
 
     // アップロードされたポーズで定義されている関節を確認
     const definedBones = new Set(Object.keys(pose));

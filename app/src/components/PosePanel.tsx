@@ -52,12 +52,14 @@ export const PosePanel: React.FC<PosePanelProps> = ({ onPoseSelect }) => {
       
       {isExpanded && (
         <div className="p-4 space-y-4">
+          {/* ポーズアップロード機能は内部的に残すが、UIは非表示
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-2">
               ポーズをアップロード
             </h3>
             <PoseUploader onPoseLoaded={handlePoseLoaded} />
           </div>
+          */}
           
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-2">
